@@ -8,7 +8,7 @@
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
 
-use crate::bitcoin;
+use crate::bitcoint4;
 use serde_json;
 
 use crate::client::Result;
@@ -22,30 +22,30 @@ pub trait Queryable<C: RpcApi>: Sized {
     fn query(rpc: &C, id: &Self::Id) -> Result<Self>;
 }
 
-impl<C: RpcApi> Queryable<C> for bitcoin::block::Block {
-    type Id = bitcoin::BlockHash;
+impl<C: RpcApi> Queryable<C> for bitcoint4::block::Block {
+    type Id = bitcoint4::BlockHash;
 
     fn query(rpc: &C, id: &Self::Id) -> Result<Self> {
         let rpc_name = "getblock";
         let hex: String = rpc.call(rpc_name, &[serde_json::to_value(id)?, 0.into()])?;
-        let bytes: Vec<u8> = bitcoin::hashes::hex::FromHex::from_hex(&hex)?;
-        Ok(bitcoin::consensus::encode::deserialize(&bytes)?)
+        let bytes: Vec<u8> = bitcoint4::hashes::hex::FromHex::from_hex(&hex)?;
+        Ok(bitcoint4::consensus::encode::deserialize(&bytes)?)
     }
 }
 
-impl<C: RpcApi> Queryable<C> for bitcoin::transaction::Transaction {
-    type Id = bitcoin::Txid;
+impl<C: RpcApi> Queryable<C> for bitcoint4::transaction::Transaction {
+    type Id = bitcoint4::Txid;
 
     fn query(rpc: &C, id: &Self::Id) -> Result<Self> {
         let rpc_name = "getrawtransaction";
         let hex: String = rpc.call(rpc_name, &[serde_json::to_value(id)?])?;
-        let bytes: Vec<u8> = bitcoin::hashes::hex::FromHex::from_hex(&hex)?;
-        Ok(bitcoin::consensus::encode::deserialize(&bytes)?)
+        let bytes: Vec<u8> = bitcoint4::hashes::hex::FromHex::from_hex(&hex)?;
+        Ok(bitcoint4::consensus::encode::deserialize(&bytes)?)
     }
 }
 
 impl<C: RpcApi> Queryable<C> for Option<crate::json::GetTxOutResult> {
-    type Id = bitcoin::OutPoint;
+    type Id = bitcoint4::OutPoint;
 
     fn query(rpc: &C, id: &Self::Id) -> Result<Self> {
         rpc.get_tx_out(&id.txid, id.vout, Some(true))

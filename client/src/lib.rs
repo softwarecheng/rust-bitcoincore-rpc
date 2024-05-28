@@ -25,10 +25,10 @@ extern crate serde;
 pub extern crate jsonrpc;
 
 pub extern crate bitcoincore_rpc_json;
-pub use crate::json::bitcoin;
+pub use crate::json::bitcoint4;
 pub use bitcoincore_rpc_json as json;
-use json::bitcoin::consensus::{Decodable, ReadExt};
-use json::bitcoin::hashes::hex::HexIterator;
+use json::bitcoint4::consensus::{Decodable, ReadExt};
+use json::bitcoint4::hashes::hex::HexIterator;
 
 mod client;
 mod error;
@@ -42,7 +42,7 @@ fn deserialize_hex<T: Decodable>(hex: &str) -> Result<T> {
     let mut reader = HexIterator::new(&hex)?;
     let object = Decodable::consensus_decode(&mut reader)?;
     if reader.read_u8().is_ok() {
-        Err(Error::BitcoinSerialization(bitcoin::consensus::encode::Error::ParseFailed(
+        Err(Error::BitcoinSerialization(bitcoint4::consensus::encode::Error::ParseFailed(
             "data not consumed entirely when explicitly deserializing",
         )))
     } else {
