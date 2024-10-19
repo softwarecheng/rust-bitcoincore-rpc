@@ -1062,8 +1062,6 @@ pub struct GetBlockchainInfoResult {
     /// Status of softforks in progress
     #[serde(default)]
     pub softforks: HashMap<String, Softfork>,
-    /// Any network and blockchain warnings.
-    pub warnings: String,
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]

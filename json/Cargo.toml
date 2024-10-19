@@ -12,7 +12,7 @@
 [package]
 edition = "2018"
 name = "ord-bitcoincoret4-rpc-json"
-version = "0.17.1"
+version = "0.17.2"
 authors = [
     "Steven Roose <steven@stevenroose.org>",
     "Jean Pierre Dudey <jeandudey@hotmail.com>",
